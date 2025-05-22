@@ -1,11 +1,11 @@
 {
     "name": "node-server-with-pg",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "index.ts",
     "type": "module",
     "scripts": {
-        "dev": "node -r dotenv/config --watch index.js",
-        "start": "node index.js"
+        "dev": "node -r dotenv/config --watch index.ts",
+        "start": "node index.ts"
     },
     "keywords": [],
     "author": "",
@@ -15,6 +15,9 @@
         "pg": "^8.12.0"
     },
     "devDependencies": {
-        "dotenv": "^16.4.5"
+        "@types/node": "^22.13.0",
+        "@types/pg": "^8.15.2",
+        "dotenv": "^16.4.5",
+        "typescript": "^5.8.0"
     }
 }

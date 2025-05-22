@@ -1,5 +1,5 @@
 // Bring in the http module
-import http from 'http';
+import http, { type IncomingMessage, type ServerResponse } from 'http';
 // Import CRUD operations
 import {
     createProduct,
@@ -7,21 +7,21 @@ import {
     getProducts,
     getProductById,
     updateProduct,
-} from './crudOperations.js';
+} from './crudOperations.ts';
 // Import utility functions
-import { regex, returnErrorWithMessage } from './utils.js';
+import { regex, returnErrorWithMessage } from './utils.ts';
 
 // Base resource
 const resource = '/products';
 
 // Request handler to handle all requests
-const requestHandler = async (req, res) => {
+const requestHandler = async (req: IncomingMessage, res: ServerResponse) => {
     const { method, url } = req;
     if (url === resource) {
         if (method === 'GET') return await getProducts(req, res);
         if (method === 'POST') return await createProduct(req, res);
         else return returnErrorWithMessage(res, 405, 'Method Not Allowed');
-    } else if (regex(resource).test(url)) {
+    } else if (url && regex(resource).test(url)) {
         if (method === 'GET') return await getProductById(req, res);
         if (method === 'PUT') return await updateProduct(req, res);
         if (method === 'DELETE') return await deleteProduct(req, res);

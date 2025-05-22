@@ -1,18 +1,19 @@
+import { type RequestListener } from 'http';
 import pg from 'pg';
 // Import utility functions
 import {
     getResourceId,
     processBodyFromRequest,
     returnErrorWithMessage,
-} from './utils.js';
+} from './utils.ts';
 
 const { Client } = pg;
 
-export const createProduct = async (req, res) => {
+export const createProduct: RequestListener = async (req, res) => {
     try {
         const body = await processBodyFromRequest(req); // This utility function gets the body for you
         if (!body) return returnErrorWithMessage(res, 400, 'Body is required');
-        const parsedBody = JSON.parse(body);
+        const parsedBody = JSON.parse(body.toString());
         const client = new Client({
             connectionString: process.env.PG_URI,
         });
@@ -38,7 +39,7 @@ export const createProduct = async (req, res) => {
     }
 };
 
-export const getProducts = async (req, res) => {
+export const getProducts: RequestListener = async (req, res) => {
     try {
         const client = new Client({
             connectionString: process.env.PG_URI,
@@ -55,9 +56,9 @@ export const getProducts = async (req, res) => {
     }
 };
 
-export const getProductById = async (req, res) => {
+export const getProductById: RequestListener = async (req, res) => {
     try {
-        const id = getResourceId(req.url);
+        const id = getResourceId(req.url || '');
         const client = new Client({
             connectionString: process.env.PG_URI,
         });
@@ -78,12 +79,12 @@ export const getProductById = async (req, res) => {
     }
 };
 
-export const updateProduct = async (req, res) => {
+export const updateProduct: RequestListener = async (req, res) => {
     try {
-        const id = getResourceId(req.url);
+        const id = getResourceId(req.url || '');
         const body = await processBodyFromRequest(req);
         if (!body) return returnErrorWithMessage(res, 400, 'Body is required');
-        const parsedBody = JSON.parse(body);
+        const parsedBody = JSON.parse(body.toString());
         const client = new Client({
             connectionString: process.env.PG_URI,
         });
@@ -110,9 +111,9 @@ export const updateProduct = async (req, res) => {
     }
 };
 
-export const deleteProduct = async (req, res) => {
+export const deleteProduct: RequestListener = async (req, res) => {
     try {
-        const id = getResourceId(req.url);
+        const id = getResourceId(req.url || '');
         const client = new Client({
             connectionString: process.env.PG_URI,
         });
