@@ -1,0 +1,24 @@
+{
+    "name": "node-server-with-pg",
+    "version": "1.0.0",
+    "main": "index.ts",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx watch -r dotenv/config ./index.ts",
+        "start": "tsx ./index.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "pg": "^8.12.0"
+    },
+    "devDependencies": {
+        "@types/node": "^22.13.0",
+        "@types/pg": "^8.15.2",
+        "dotenv": "^16.4.5",
+        "tsx": "^4.19.4",
+        "typescript": "^5.8.0"
+    }
+}
