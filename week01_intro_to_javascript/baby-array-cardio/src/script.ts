@@ -23,8 +23,8 @@ function saySomething() {
 saySomething();
 
 // Create an ES5 function that takes 2 parameters and **RETURNS** a string that includes those 2 parameters using template literal. Then log the value of that function to the console.
-function madLibs(name, thing) {
-    return `My name is ${name}, and I like ${thing}!`;
+function madLibs(firstName: string, thing: string) {
+    return `My firstName is ${firstName}, and I like ${thing}!`;
 }
 
 const funString = madLibs('Aang', 'penguin sledding');
@@ -35,8 +35,8 @@ const saySomethingES6 = () => {
     console.log('Something, I say!');
 };
 
-const madLibsES6 = (name, thing) => {
-    return `My name is ${name}, and I like ${thing}!`;
+const madLibsES6 = (firstName: string, thing: string) => {
+    return `My firstName is ${firstName}, and I like ${thing}!`;
 };
 
 const es6String = madLibsES6('Jeffrey', 'to party');
@@ -81,20 +81,20 @@ console.log(
     element4
 );
 
-// Create an object with the keys "name", "age", "occupation" and "hobbies" (hobbies should be an array)
+// Create an object with the keys "firstName", "age", "occupation" and "hobbies" (hobbies should be an array)
 const someGuy = {
-    name: 'Gerald',
+    firstName: 'Gerald',
     age: 32,
     occupation: 'Fireman',
     hobbies: ['golfing', 'running', 'sitting upside-down'],
 };
 
-// Log the name to the console
+// Log the firstName to the console
 
-console.log("someGuy's name (w/ dot notation): ", someGuy.name);
+console.log("someGuy's firstName (w/ dot notation): ", someGuy.firstName);
 
-const { name } = someGuy;
-console.log("someGuy's name (w/ destructuring): ", name);
+const { firstName } = someGuy;
+console.log("someGuy's firstName (w/ destructuring): ", firstName);
 
 // Log the occupation and age to the console
 console.log(
@@ -118,19 +118,19 @@ console.log("someGuy's first hobby (w/ destructuring): ", hobbies[0]);
 // Create an array containing 3 objects. The objects should have the same keys as the one in the previous exercise
 const somePeople = [
     {
-        name: 'Sally',
+        firstName: 'Sally',
         age: 77,
         occupation: 'retired',
         hobbies: ['watching grass grow', 'yelling at kids to get off her lawn'],
     },
     {
-        name: 'Frank',
+        firstName: 'Frank',
         age: 18,
         occupation: 'waiter',
         hobbies: ['eating an entire pizza in one sitting', 'rock climbing'],
     },
     {
-        name: 'Francis',
+        firstName: 'Francis',
         age: 46,
         occupation: 'banker',
         hobbies: ['board games', 'cooking'],
@@ -141,15 +141,15 @@ const somePeople = [
 // for loop
 for (let i = 0; i < somePeople.length; i++) {
     // can still use dot notation or destructuring
-    const { name } = somePeople[i];
-    console.log(`name of some person at index ${i}: `, name);
+    const { firstName } = somePeople[i];
+    console.log(`firstName of some person at index ${i}: `, firstName);
 
-    // console.log(`name of some person at index ${i}: `, somePeople[i].name);
+    // console.log(`firstName of some person at index ${i}: `, somePeople[i].firstName);
 }
 //for ... of loop
 for (const somePerson of somePeople) {
     // can still use dot notation or destructuring
-    const { name } = somePerson;
-    console.log(`name of somePerson: `, name);
-    // console.log(`name of somePerson: `, somePerson.name);
+    const { firstName } = somePerson;
+    console.log(`firstName of somePerson: `, firstName);
+    // console.log(`firstName of somePerson: `, somePerson.firstName);
 }

@@ -1,9 +1,9 @@
-import http from 'http';
+import http, { type IncomingMessage, type ServerResponse } from 'http';
 import {
     createFileWithMessage,
     deleteFileByName,
     readFileByName,
-} from './fileFunctions.js';
+} from './fileFunctions.ts';
 const url1 = '/files/date/time.txt';
 const url2 = '/files/2024-07-15/13-44-25.txt';
 const url3 = '/files/something/else';
@@ -16,7 +16,7 @@ for the second segment : is allowed. The string should end in .txt
 // console.log(regex.test(url2)); // Expected output: true
 // console.log(regex.test(url3)); // Expected output: false
 
-const requestHandler = async (req, res) => {
+const requestHandler = async (req: IncomingMessage, res: ServerResponse) => {
     const regex = /^\/files\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\.txt$/;
     const { method, url } = req;
     res.setHeader('Content-Type', 'application/json');
@@ -47,7 +47,7 @@ const requestHandler = async (req, res) => {
             })
         );
     }
-    if (regex.test(url)) {
+    if (url && regex.test(url)) {
         const filePath = url.slice(7);
         if (method === 'GET') {
             const fileContent = await readFileByName(filePath);

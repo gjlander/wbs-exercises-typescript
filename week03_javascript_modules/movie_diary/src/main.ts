@@ -2,10 +2,24 @@ const moviesCont = document.querySelector('#movies-container');
 const searchForm = document.querySelector('#search-form');
 const resultsCont = document.querySelector('#results-container');
 
-const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+const IMGURL = 'https://image.tmdb.org/t/p/w500';
 
-const addToFavs = ({ id, original_title, poster_path, overview }) => {
-    const moviesInStorage = JSON.parse(localStorage.getItem('favorites')) || [];
+interface Movie {
+    id: number;
+    original_title: string;
+    poster_path: string;
+    overview: string;
+}
+
+interface Favorite extends Movie {
+    notes: string;
+}
+
+const addToFavs = ({ id, original_title, poster_path, overview }: Movie) => {
+    const favMoviesJSON = localStorage.getItem('favorites');
+    const moviesInStorage: Favorite[] = favMoviesJSON
+        ? JSON.parse(favMoviesJSON)
+        : [];
     if (moviesInStorage.some((movie) => movie.id === id)) return;
     const storageMovie = {
         id,
@@ -18,8 +32,9 @@ const addToFavs = ({ id, original_title, poster_path, overview }) => {
     moviesInStorage.push(storageMovie);
     localStorage.setItem('favorites', JSON.stringify(moviesInStorage));
 };
-const renderMovies = (moviesArray) => {
+const renderMovies = (moviesArray: Movie[]) => {
     // console.log('You clicked the summon button!');
+    if (!moviesCont) return;
     moviesCont.innerHTML = '';
     // console.log(moviesArray);
     moviesArray.forEach((movie) => {
@@ -32,7 +47,7 @@ const renderMovies = (moviesArray) => {
         figure.className = 'rounded-t-lg overflow-hidden h-96';
         const img = document.createElement('img');
         img.className = 'w-full h-full';
-        img.src = IMG_URL + poster_path;
+        img.src = IMGURL + poster_path;
         img.alt = original_title;
         figure.appendChild(img);
 
@@ -60,7 +75,7 @@ const renderMovies = (moviesArray) => {
         // <figure class='rounded-t-lg overflow-hidden h-96'>
         //  <img
         //  class="w-full"
-        //      src=${IMG_URL + poster_path}
+        //      src=${IMGURL + poster_path}
         //      alt=${original_title} />
         // </figure>
         // <div class="flex flex-col px-4 py-2 rounded-b-lg bg-slate-100 dark:bg-slate-800 h-80">
@@ -71,7 +86,8 @@ const renderMovies = (moviesArray) => {
     });
 };
 
-const renderSearchResults = (moviesArray) => {
+const renderSearchResults = (moviesArray: Movie[]) => {
+    if (!resultsCont) return;
     resultsCont.classList.remove('hidden');
     resultsCont.classList.add('flex');
 
@@ -84,7 +100,7 @@ const renderSearchResults = (moviesArray) => {
         figure.className = 'rounded-lg overflow-hidden h-24 w-24';
         const img = document.createElement('img');
         img.className = 'w-full';
-        img.src = IMG_URL + poster_path;
+        img.src = IMGURL + poster_path;
         img.alt = original_title;
         figure.appendChild(img);
 
@@ -127,7 +143,7 @@ const getMovies = async () => {
     return data.results;
 };
 
-const getSearchResults = async (query) => {
+const getSearchResults = async (query: string) => {
     const res = await fetch(
         `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=true&language=en-US&page=1`,
         options
@@ -141,17 +157,21 @@ const getSearchResults = async (query) => {
 getMovies().then((movies) => renderMovies(movies));
 
 window.addEventListener('click', (e) => {
-    if (!e.target.matches('#results-container')) {
-        resultsCont.innerHTML = '';
-        resultsCont.classList.remove('flex');
-        resultsCont.classList.add('hidden');
+    if (!(e.target as Element)?.matches('#results-container')) {
+        if (resultsCont) {
+            resultsCont.innerHTML = '';
+            resultsCont.classList.remove('flex');
+            resultsCont.classList.add('hidden');
+        }
     }
 });
 
-searchForm.addEventListener('submit', async (e) => {
+searchForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const searchInput = document.querySelector('#search-input');
-    if (!searchInput.value) return;
+    const searchInput = document.querySelector(
+        '#search-input'
+    ) as HTMLInputElement;
+    if (!searchInput?.value) return;
 
     const results = await getSearchResults(searchInput.value);
 

@@ -1,11 +1,22 @@
 const favCont = document.querySelector('#fav-container');
 
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+interface Movie {
+    id: number;
+    original_title: string;
+    poster_path: string;
+    overview: string;
+}
 
-const favs = JSON.parse(localStorage.getItem('favorites')) || [];
+interface Favorite extends Movie {
+    notes: string;
+}
+
+const favsJSON = localStorage.getItem('favorites');
+const favs: Favorite[] = favsJSON ? JSON.parse(favsJSON) : [];
 console.log(favCont);
 
-const updateNotes = (id, newNotes) => {
+const updateNotes = (id: number, newNotes: string) => {
     const updatedFavs = favs.map((fav) =>
         fav.id !== id ? fav : { ...fav, notes: newNotes }
     );
@@ -13,6 +24,7 @@ const updateNotes = (id, newNotes) => {
 };
 
 const renderFavs = () => {
+    if (!favCont) return;
     if (!favs.length) {
         favCont.innerHTML = `<h2 class="text-4xl">It looks like you don't have any favorites yet...</h2>`;
         return;
