@@ -1,5 +1,5 @@
 // index.mjs
-import http from 'http';
+import http, { IncomingMessage, ServerResponse } from 'http';
 
 const posts = [
     {
@@ -14,7 +14,7 @@ const posts = [
     },
 ];
 
-const requestHandler = (req, res) => {
+const requestHandler = (req: IncomingMessage, res: ServerResponse) => {
     const singlePostRegex = /^\/posts\/[0-9a-zA-Z]+$/;
     const { method, url } = req;
     if (url === '/posts') {
@@ -43,7 +43,7 @@ const requestHandler = (req, res) => {
         }
         return console.log('Invalid method');
     }
-    if (singlePostRegex.test(url)) {
+    if (url && singlePostRegex.test(url)) {
         if (method === 'GET') {
             return console.log(`GET request on ${url}`);
         }

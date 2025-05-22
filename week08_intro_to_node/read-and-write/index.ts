@@ -1,7 +1,7 @@
 import { access, appendFile, mkdir, unlink } from 'fs/promises';
 import { join } from 'path';
 
-const createFileWithMessage = async (message) => {
+const createFileWithMessage = async (message: string) => {
     try {
         const now = new Date();
         const year = now.toLocaleString('default', { year: 'numeric' });
@@ -27,7 +27,7 @@ const createFileWithMessage = async (message) => {
     }
 };
 
-const deleteFileByName = async (filePath) => {
+const deleteFileByName = async (filePath: string) => {
     try {
         await unlink(filePath);
         console.log(`Successfully deleted ${filePath}`);

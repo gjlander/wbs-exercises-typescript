@@ -1,11 +1,11 @@
 {
-    "name": "http-module",
+    "name": "typescript",
     "version": "1.0.0",
-    "main": "index.ts",
+    "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "node --watch index.ts",
-        "start": "node index.ts"
+        "compile": "tsc",
+        "start": "node dist/app.js"
     },
     "keywords": [],
     "author": "",
