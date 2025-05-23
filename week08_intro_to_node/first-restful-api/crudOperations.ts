@@ -1,5 +1,5 @@
 import { type RequestListener } from 'http';
-import pg from 'pg';
+import pg from './node_modules/@types/pg/index.js';
 // Import utility functions
 import {
     getResourceId,

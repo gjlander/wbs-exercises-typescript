@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import fileUploader from './middleware/fileUploader.js';
-import ErrorResponse from './utils/ErrorResponse.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -12,8 +11,8 @@ app.use(cors({ origin: '*' }));
 app.use('/files', express.static('files'));
 
 app.post('/file-upload', fileUploader.single('image'), (req, res) => {
-    if (!req.file) throw new ErrorResponse('Please upload a file', 400);
-    return res.status(200).json({
+    if (!req.file) throw new Error('Please upload a file', { cause: 400 });
+    res.status(200).json({
         location: `http://localhost:8080/files/${req.file.filename}`,
     });
     // return res.status(200).json({
@@ -23,8 +22,8 @@ app.post('/file-upload', fileUploader.single('image'), (req, res) => {
     // });
 });
 
-app.use('/*', (req, res) => {
-    throw new ErrorResponse('Not Found', 404);
+app.use('/*splat', (req, res) => {
+    throw new Error('Not Found', { cause: 404 });
 });
 app.use(errorHandler);
 
