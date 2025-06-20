@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { v2 as cloudinary } from 'cloudinary';
-import { type RequestHandler } from 'express';
+import { type Request, type Response, type NextFunction } from 'express';
 
 declare module 'express-serve-static-core' {
   interface Request {
@@ -18,7 +18,7 @@ cloudinary.config({
 // 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
 
 // Upload an image
-const cloudUploader: RequestHandler = async (req, res, next) => {
+const cloudUploader = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.file) throw new Error('Please upload a file.', { cause: 400 });
 

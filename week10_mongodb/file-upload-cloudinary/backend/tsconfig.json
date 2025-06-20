@@ -19,6 +19,7 @@
     // Disallow features that require cross-file awareness
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "strict": true,
     "outDir": "dist"
   }
