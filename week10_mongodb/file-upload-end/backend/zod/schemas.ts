@@ -12,4 +12,6 @@ const userSchema = z.object({
     .optional()
 });
 
-export { userSchema };
+type ZodUserSchema = z.infer<typeof userSchema>;
+
+export { userSchema, type ZodUserSchema };
