@@ -6,7 +6,7 @@ const validateBody = (zodSchema: z.ZodObject<any, any>) => (req: Request, res: R
   if (error) {
     next(new Error(z.prettifyError(error), { cause: 400 }));
   } else {
-    req.sanitizedBody = data;
+    req.body = data;
     next();
   }
 };
