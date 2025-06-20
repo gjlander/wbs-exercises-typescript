@@ -35,8 +35,11 @@ export const getUserById: RequestHandler = async (req, res) => {
 
 export const updateUser: RequestHandler<{ id: string }, {}, ZodUserSchema> = async (req, res) => {
   const {
-    params: { id }
+    params: { id },
+    body,
+    image
   } = req;
+  // console.log(body, image);
   if (!isValidObjectId(id)) throw new Error('Invalid id', { cause: 400 });
   const user = await User.findByIdAndUpdate(id, req.body, { new: true });
   if (!user) throw new Error('User not found', { cause: 404 });

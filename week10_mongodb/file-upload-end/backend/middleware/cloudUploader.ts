@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer';
 import { v2 as cloudinary } from 'cloudinary';
 import { type RequestHandler } from 'express';
 
@@ -10,21 +9,16 @@ cloudinary.config({
   secure_url: true
 });
 
-// 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
-
 // Upload an image
 const cloudUploader: RequestHandler = async (req, res, next) => {
   try {
-    if (!req.file) throw new Error('Please upload a file.', { cause: 400 });
+    const filePath = req.image!.filepath;
 
-    const b64 = Buffer.from(req.file.buffer).toString('base64');
-    const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
-
-    const cloudinaryData = await cloudinary.uploader.upload(dataURI, {
+    const cloudinaryData = await cloudinary.uploader.upload(filePath, {
       resource_type: 'auto'
     });
 
-    // console.log(cloudinaryData);
+    // console.log(cloudinaryData.secure_url);
 
     req.body.image = cloudinaryData.secure_url;
 
