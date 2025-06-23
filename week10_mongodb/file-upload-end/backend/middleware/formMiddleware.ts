@@ -1,6 +1,7 @@
 import { type RequestHandler } from 'express';
 import formidable from 'formidable';
 import type { Fields, Files, File, Part } from 'formidable';
+// import { formFieldsSchema } from '../zod/schemas.js';
 
 declare module 'express-serve-static-core' {
   interface Request {
@@ -23,15 +24,16 @@ const formMiddleWare: RequestHandler = (req, res, next) => {
     if (err) {
       next(err);
     }
-    const body: Record<string, string> = {};
+    // const body: Record<string, string> = {};
+    // const body = formFieldsSchema.parse(fields);
 
-    for (const field in fields) {
-      // formidable has fields as array of strings
-      if (Array.isArray(fields[field])) body[field] = fields[field][0];
-    }
+    // for (const field in fields) {
+    //   // formidable has fields as array of strings
+    //   if (Array.isArray(fields[field])) body[field] = fields[field][0];
+    // }
     if (!files || !files.image) throw new Error('Please upload a file.', { cause: 400 });
     // console.log(files.image[0].filepath);
-    req.body = body;
+    req.body = fields;
     req.image = files.image[0];
     next();
   });
